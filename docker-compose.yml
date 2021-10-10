@@ -12,6 +12,13 @@ services:
     command: pm2-runtime src/app/index.js --watch
     depends_on:
       - mongo
+  auth-client:
+    container_name: auth-client
+    build: ./auth-client
+    expose:
+      - 3001
+    ports:
+      - 3001:3001
   mongo:
     image : mongo
     container_name: mongodb
