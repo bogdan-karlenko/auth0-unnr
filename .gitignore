@@ -1,3 +1,6 @@
+# database volume
+.db
+
 # Logs
 logs
 *.log

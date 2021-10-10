@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  auth-server:
+    container_name: auth-server
+    build: ./auth-server
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    volumes:
+      - ./auth-server/src/app:/app/src/app
+    command: pm2-runtime src/app/index.js --watch
+    depends_on:
+      - mongo
+  mongo:
+    image : mongo
+    container_name: mongodb
+    volumes:
+      - ./.db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    expose:
+      - 27017
+    ports:
+      - 27017:27017
+    restart: unless-stopped
+
