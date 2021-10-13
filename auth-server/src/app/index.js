@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const { unescape } = require('querystring');
 const { MongoClient } = require('mongodb');
@@ -5,13 +6,14 @@ const { sign } = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const { v4: uuid } = require('uuid');
 const url = require('url');
+const bcrypt = require('bcrypt');
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const mongoClient = new MongoClient('mongodb://admin:password@mongo:27017');
+const mongoClient = new MongoClient(process.env.DB_URI);
 
 const port = 3000;
 
@@ -56,7 +58,7 @@ mongoClient.connect(async (err, client) => {
 		const { userName, password, requestId } = req.body;
 		const user = userName && await db.collection('users').findOne({ username: userName });
 		console.log('user:', user);
-		if (!user || user.password !== password) {
+		if (!user || !bcrypt.compare(password, user.password)) {
 			res.status(401).send('Error: user not authorized');
 			return;
 		}

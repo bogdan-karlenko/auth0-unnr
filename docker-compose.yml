@@ -9,7 +9,6 @@ services:
       - 3000:3000
     volumes:
       - ./auth-server/src/app:/app/src/app
-    command: pm2-runtime src/app/index.js --watch
     depends_on:
       - mongo
   auth-client:

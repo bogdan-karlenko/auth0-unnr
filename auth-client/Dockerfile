@@ -7,8 +7,8 @@ WORKDIR /app
 
 COPY ["package.json", "package-lock.json*", "./"]
 
-RUN npm install --production
+RUN npm install
 
 COPY . .
 
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "start:nodemon" ]
