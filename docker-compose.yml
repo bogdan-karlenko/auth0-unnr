@@ -11,6 +11,17 @@ services:
       - ./auth-server/src/app:/app/src/app
     depends_on:
       - mongo
+  # urr-service:
+  #   container_name: urr-service
+  #   build: ./urr-service
+  #   expose:
+  #     - 3004
+  #   ports:
+  #     - 3004:3004
+  #   volumes:
+  #     - ./urr-service/src/app:/app/src/app
+  #   depends_on:
+  #     - mongo
   auth-client:
     container_name: auth-client
     build: ./auth-client
@@ -18,6 +29,13 @@ services:
       - 3001
     ports:
       - 3001:3001
+  urr-client:
+    container_name: urr-client
+    build: ./urr-client
+    expose:
+      - 3002
+    ports:
+      - 3002:3002
   mongo:
     image : mongo
     container_name: mongodb
